@@ -1,10 +1,21 @@
 import 'package:alphatwelve/gen/assets.gen.dart';
+import 'package:alphatwelve/providers/cart_provider.dart';
 import 'package:alphatwelve/widgets/asset_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key});
+  final String name;
+  final String price;
+  final String imagePath;
+
+  const ProductDetailsScreen({
+    super.key,
+    required this.name,
+    required this.price,
+    required this.imagePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +33,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   const Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
                         'DELIVERY ADDRESS',
                         style: TextStyle(
@@ -80,7 +91,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Center(
-                    child: ImageBuilder(Assets.pngs.iphone16.path, width: 160),
+                    child: ImageBuilder(imagePath, width: 160),
                   ),
                 ),
                 Positioned(
@@ -101,21 +112,21 @@ class ProductDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                   
-                children: const [
+                children: [
                   Row(
                     children: [
                       Text(
-                        'Apple iPhone 16 128GB | Teal',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        name,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       Text(
-                        '\$700.00',
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                        price,
+                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -160,8 +171,22 @@ class ProductDetailsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {
-                  context.push('/cart');
+                onPressed: () async {
+                  final cart = context.read<CartProvider>();
+                  await cart.addItem(
+                    name, // Using name as ID for simplicity, you might want to use a unique ID
+                    name,
+                    double.parse(price.replaceAll(RegExp(r'[^0-9.]'), '')),
+                    imagePath,
+                  );
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Added to cart'),
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                  }
                 },
                 child: const Text(
                   'Add to cart',
