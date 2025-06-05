@@ -3,6 +3,7 @@ import 'package:alphatwelve/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -35,9 +36,19 @@ class AllFeatures extends StatelessWidget {
               routerConfig: router,
               title: 'AlphaTwelve Minimart',
               debugShowCheckedModeBanner: false,
-              // theme: AppTheme().lightThemeData,
+              theme: ThemeData(
+                useMaterial3: true,
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+                textTheme: GoogleFonts.ibmPlexSansTextTheme(),
+                primaryTextTheme: GoogleFonts.ibmPlexSansTextTheme(),
+                appBarTheme: AppBarTheme(
+                  titleTextStyle: GoogleFonts.ibmPlexSans(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
               themeMode: ThemeMode.light,
-              //darkTheme: AppTheme().darkThemeData,
             ),
           );
         });

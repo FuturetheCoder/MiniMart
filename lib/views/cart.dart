@@ -1,3 +1,4 @@
+import 'package:alphatwelve/core/theme/pallete.dart';
 import 'package:alphatwelve/gen/assets.gen.dart';
 import 'package:alphatwelve/providers/cart_provider.dart';
 import 'package:alphatwelve/widgets/asset_builder.dart';
@@ -17,11 +18,11 @@ class CartScreen extends StatelessWidget {
     final double total = subtotal + shipping;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor:white,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

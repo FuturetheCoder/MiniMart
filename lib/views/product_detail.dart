@@ -1,3 +1,4 @@
+import 'package:alphatwelve/core/theme/pallete.dart';
 import 'package:alphatwelve/gen/assets.gen.dart';
 import 'package:alphatwelve/providers/cart_provider.dart';
 import 'package:alphatwelve/widgets/asset_builder.dart';
@@ -126,7 +127,9 @@ class ProductDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         price,
-                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          color:black,
+                          fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -145,13 +148,13 @@ class ProductDetailsScreen extends StatelessWidget {
                 children: const [
                   Text(
                     'About this item',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    style: TextStyle(fontSize: 16, color:grey),
                   ),
                   SizedBox(height: 8),
                   Text(
                     '• This pre-owned product is not Apple certified, but has been professionally inspected, tested and cleaned by Amazon-qualified suppliers.\n'
                     '• There will be no visible cosmetic imperfections when held at an arm’s length. There will be no visible cosmetic imperfections when held at an arm’s length.',
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                    style: TextStyle(fontSize: 14, color:grey),
                   ),
                 ],
               ),
@@ -181,9 +184,55 @@ class ProductDetailsScreen extends StatelessWidget {
                   );
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Added to cart'),
-                        duration: Duration(seconds: 1),
+                      SnackBar(
+                        content: Container(
+                          padding: const EdgeInsets.only(left: 8, top: 12, bottom: 12, right: 16),
+                          decoration: const BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 10,
+                                offset: Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 4,
+                                height: 35, // Set explicit height to match icon size
+                                margin: const EdgeInsets.only(right: 40),
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(2),
+                                    bottomLeft: Radius.circular(2),
+                                  ),
+                                ),
+                              ),
+                              const Icon(Icons.check_circle, color: Colors.green, size: 24),
+                              const SizedBox(width: 12),
+                              const Text(
+                                'Item has been added to cart',
+                                style: TextStyle(
+                                  color: black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        backgroundColor: Colors.transparent,
+                        behavior: SnackBarBehavior.floating,
+                        margin: const EdgeInsets.only(bottom: 16, left: 8, right: 16),
+                        elevation: 0,
+                        duration: const Duration(seconds: 2),
                       ),
                     );
                   }
@@ -193,7 +242,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: white,
                   ),
                 ),
               ),

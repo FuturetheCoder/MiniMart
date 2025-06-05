@@ -1,3 +1,4 @@
+import 'package:alphatwelve/core/theme/pallete.dart';
 import 'package:alphatwelve/gen/assets.gen.dart';
 import 'package:alphatwelve/widgets/asset_builder.dart';
 import 'package:alphatwelve/widgets/bottom_nav.dart';
@@ -100,9 +101,9 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(
               "DELIVERY ADDRESS",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: TextStyle(fontSize: 12, color: black),
             ),
-            Text("Umuezike Road, Oyo State", style: TextStyle(fontSize: 14)),
+            Text("Umuezike Road, Oyo State", style: TextStyle(fontSize: 14, color: black)),
           ],
         ),
         centerTitle: true,
@@ -170,7 +171,7 @@ class _HomePageState extends State<HomePage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Smartphones, Laptops & Assecoories",
+                "Smartphones, Laptops & Accessories",
                 style: TextStyle(fontSize: 18, fontFamily: 'Courier'),
               ),
             ),
