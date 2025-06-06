@@ -1,5 +1,7 @@
 import 'package:alphatwelve/core/theme/pallete.dart';
+import 'package:alphatwelve/gen/assets.gen.dart';
 import 'package:alphatwelve/providers/cart_provider.dart';
+import 'package:alphatwelve/widgets/asset_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,16 +28,16 @@ class BottomNavBar extends StatelessWidget {
           unselectedItemColor: Colors.black,
           type: BottomNavigationBarType.fixed,
           items: [
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
+            BottomNavigationBarItem(
+              icon: SvgBuilder(Assets.svgs.home),
+              activeIcon: SvgBuilder(Assets.svgs.home, color:blue),
               label: "Home",
             ),
             BottomNavigationBarItem(
               icon: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  const Icon(Icons.shopping_cart_outlined),
+                  SvgBuilder(Assets.svgs.cart),
                   if (itemCount > 0)
                     Positioned(
                       right: -8,
@@ -63,17 +65,17 @@ class BottomNavBar extends StatelessWidget {
                     ),
                 ],
               ),
-              activeIcon: const Icon(Icons.shopping_cart),
+              activeIcon: SvgBuilder(Assets.svgs.cart, color:blue),
               label: "Cart",
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              activeIcon: Icon(Icons.favorite),
+            BottomNavigationBarItem(
+              icon: SvgBuilder(Assets.svgs.favorite),
+              activeIcon: SvgBuilder(Assets.svgs.favorite, color:blue),
               label: "Favorites",
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
+            BottomNavigationBarItem(
+              icon: SvgBuilder(Assets.svgs.profile),
+              activeIcon: SvgBuilder(Assets.svgs.profile, color:blue),
               label: "Profile",
             ),
           ],
