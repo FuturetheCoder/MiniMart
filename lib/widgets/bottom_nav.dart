@@ -1,3 +1,4 @@
+import 'package:alphatwelve/core/theme/pallete.dart';
 import 'package:alphatwelve/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class BottomNavBar extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: const BoxDecoration(
-                          color: Colors.red,
+                          color: cartIcon,
                           shape: BoxShape.circle,
                         ),
                         constraints: const BoxConstraints(

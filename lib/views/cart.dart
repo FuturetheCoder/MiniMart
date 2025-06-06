@@ -2,6 +2,7 @@ import 'package:alphatwelve/core/theme/pallete.dart';
 import 'package:alphatwelve/gen/assets.gen.dart';
 import 'package:alphatwelve/providers/cart_provider.dart';
 import 'package:alphatwelve/widgets/asset_builder.dart';
+import 'package:alphatwelve/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -18,17 +19,18 @@ class CartScreen extends StatelessWidget {
     final double total = subtotal + shipping;
 
     return Scaffold(
-      backgroundColor:white,
+      backgroundColor: white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor:white,
+        backgroundColor: white,
+        centerTitle: true,
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               "DELIVERY ADDRESS",
-              style: TextStyle(fontSize: 12, color: Colors.black54),
+              style: TextStyle(fontSize: 12, color: black),
             ),
             const SizedBox(height: 4),
             const Text(
@@ -36,7 +38,7 @@ class CartScreen extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
-                color: Colors.black,
+                color: black,
               ),
             ),
           ],
@@ -48,7 +50,7 @@ class CartScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
-            child: SvgBuilder(Assets.svgs.notification, color: Colors.black),
+            child: SvgBuilder(Assets.svgs.notification, color: black),
           ),
         ],
       ),
@@ -62,9 +64,9 @@ class CartScreen extends StatelessWidget {
                   onTap: () {
                     context.pop();
                   },
-                  child: const Icon(Icons.arrow_back),
+                  child: SvgBuilder(Assets.svgs.back),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 20),
                 const Text(
                   'Your Cart',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
@@ -73,54 +75,58 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: cart.itemCount == 0
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.shopping_cart_outlined,
-                          size: 64,
-                          color: Colors.grey[400],
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'No Products Added',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.bold,
+            child:
+                cart.itemCount == 0
+                    ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.shopping_cart_outlined,
+                            size: 64,
+                            color: cartIcon,
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Add items to get started',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[500],
+                          const SizedBox(height: 16),
+                          Text(
+                            'No Products Added',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: grey,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+                          Text(
+                            'Add items to get started',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    : ListView.builder(
+                      itemCount: cart.items.length,
+                      itemBuilder: (context, index) {
+                        final item = cart.items.values.toList()[index];
+                        return CartItem(
+                          id: item.id,
+                          name: item.name.replaceAll('\n', ' '),
+                          price: item.price,
+                          imagePath: item.imagePath,
+                          quantity: item.quantity,
+                        );
+                      },
                     ),
-                  )
-                : ListView.builder(
-                    itemCount: cart.items.length,
-                    itemBuilder: (context, index) {
-                      final item = cart.items.values.toList()[index];
-                      return CartItem(
-                        id: item.id,
-                        name: item.name,
-                        price: item.price,
-                        imagePath: item.imagePath,
-                        quantity: item.quantity,
-                      );
-                    },
-                  ),
           ),
           if (cart.itemCount > 0) ...[
             const Divider(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 10,
+              ),
               child: Column(
                 children: [
                   OrderSummaryRow(
@@ -201,6 +207,7 @@ class CartItem extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     name,
@@ -208,7 +215,7 @@ class CartItem extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+           
                   Text(
                     "\$${price.toStringAsFixed(2)}",
                     style: const TextStyle(
@@ -216,44 +223,48 @@ class CartItem extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  
                   const Text(
                     "In stock",
                     style: TextStyle(color: Colors.green, fontSize: 13),
                   ),
-                  const Spacer(),
+                  
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CircleButton(
                         icon: Icons.remove,
                         onPressed: () async {
-                          await Provider.of<CartProvider>(context, listen: false)
-                              .removeSingleItem(id);
+                          await Provider.of<CartProvider>(
+                            context,
+                            listen: false,
+                          ).removeSingleItem(id);
                         },
                       ),
                       const SizedBox(width: 8),
-                      Text('${quantity}', style: const TextStyle(fontSize: 16)),
+                      Text('$quantity', style: const TextStyle(fontSize: 16)),
                       const SizedBox(width: 8),
                       CircleButton(
                         icon: Icons.add,
                         onPressed: () async {
-                          await Provider.of<CartProvider>(context, listen: false)
-                              .addItem(
-                            id,
-                            name,
-                            price,
-                            imagePath,
-                          );
+                          await Provider.of<CartProvider>(
+                            context,
+                            listen: false,
+                          ).addItem(id, name, price, imagePath);
                         },
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () async {
-                          await Provider.of<CartProvider>(context, listen: false)
-                              .removeItem(id);
+                          await Provider.of<CartProvider>(
+                            context,
+                            listen: false,
+                          ).removeItem(id);
                         },
-                        child: SvgBuilder(Assets.svgs.delete,
-                            color: Colors.black54),
+                        child: SvgBuilder(
+                          Assets.svgs.delete,
+                          color: black,
+                        ),
                       ),
                     ],
                   ),
@@ -267,28 +278,7 @@ class CartItem extends StatelessWidget {
   }
 }
 
-class CircleButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
 
-  const CircleButton({
-    super.key,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: CircleAvatar(
-        radius: 14,
-        backgroundColor: const Color(0xFFE6E9F0),
-        child: Icon(icon, size: 16, color: Colors.black54),
-      ),
-    );
-  }
-}
 
 class OrderSummaryRow extends StatelessWidget {
   final String label;

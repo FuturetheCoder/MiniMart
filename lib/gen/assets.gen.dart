@@ -43,6 +43,9 @@ class $AssetsPngsGen {
 class $AssetsSvgsGen {
   const $AssetsSvgsGen();
 
+  /// File path: assets/svgs/back.svg
+  String get back => 'assets/svgs/back.svg';
+
   /// File path: assets/svgs/cart.svg
   String get cart => 'assets/svgs/cart.svg';
 
@@ -66,6 +69,7 @@ class $AssetsSvgsGen {
 
   /// List of all assets
   List<String> get values => [
+    back,
     cart,
     delete,
     favorite,

@@ -101,9 +101,12 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(
               "DELIVERY ADDRESS",
+              style: TextStyle(fontSize: 10, color: black),
+            ),
+            Text(
+              "Umuezike Road, Oyo State",
               style: TextStyle(fontSize: 12, color: black),
             ),
-            Text("Umuezike Road, Oyo State", style: TextStyle(fontSize: 14, color: black)),
           ],
         ),
         centerTitle: true,
@@ -113,7 +116,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {},
           ),
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         elevation: 0,
       ),
       body: Column(
@@ -124,15 +127,11 @@ class _HomePageState extends State<HomePage> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search products...',
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                prefixIcon: const Icon(Icons.search, color: grey),
                 suffixIcon:
                     _searchController.text.isNotEmpty
                         ? IconButton(
-                          icon: const Icon(
-                            Icons.clear,
-                            color: Colors.grey,
-                            size: 20,
-                          ),
+                          icon: const Icon(Icons.clear, color: grey, size: 20),
                           onPressed: () {
                             _searchController.clear();
                           },
@@ -140,39 +139,46 @@ class _HomePageState extends State<HomePage> {
                         : null,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: grey, width: 0.5),
                 ),
                 filled: true,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: BorderSide(color: grey, width: 0.5),
                 ),
                 focusColor: Colors.grey,
                 hoverColor: Colors.grey,
-                fillColor: Colors.grey[100],
+                fillColor: white,
                 contentPadding: const EdgeInsets.symmetric(vertical: 0),
               ),
             ),
           ),
+          Divider(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
             child: Row(
               children: [
-                Icon(Icons.arrow_back),
-                SizedBox(width: 8),
+                SvgBuilder(Assets.svgs.back),
+                SizedBox(width: 20),
                 Text(
                   "Technology",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                 ),
               ],
             ),
           ),
+          Divider(thickness: 0.5),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 "Smartphones, Laptops & Accessories",
-                style: TextStyle(fontSize: 18, fontFamily: 'Courier'),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Courier',
+                ),
               ),
             ),
           ),
@@ -187,11 +193,14 @@ class _HomePageState extends State<HomePage> {
                   _filteredProducts.map((product) {
                     return GestureDetector(
                       onTap: () {
-                        context.push('/product_detail', extra: {
-                          'name': product['name']!,
-                          'price': product['price']!,
-                          'imagePath': product['image']!,
-                        });
+                        context.push(
+                          '/product_detail',
+                          extra: {
+                            'name': product['name']!,
+                            'price': product['price']!,
+                            'imagePath': product['image']!,
+                          },
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(

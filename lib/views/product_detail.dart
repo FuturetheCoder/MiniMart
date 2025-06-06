@@ -23,7 +23,7 @@ class ProductDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             // Header with logo, delivery address, and notification icon
             Padding(
@@ -46,18 +46,18 @@ class ProductDetailsScreen extends StatelessWidget {
                       Text(
                         'Umuezike Road, Oyo State',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
                   const Spacer(),
-                  SvgBuilder(Assets.svgs.notification, size: 28),
+                  SvgBuilder(Assets.svgs.notification),
                 ],
               ),
             ),
-
+            Divider(),
             // Go back section
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -67,9 +67,9 @@ class ProductDetailsScreen extends StatelessWidget {
                     onTap: () {
                       context.pop();
                     },
-                    child: Icon(Icons.arrow_back),
+                    child: SvgBuilder(Assets.svgs.back),
                   ),
-                  SizedBox(width: 8),
+                  SizedBox(width: 20),
                   Text(
                     'Go back',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -77,7 +77,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
-
+            Divider(thickness: 0.5),
             // Product image with favorite icon
             Stack(
               children: [
@@ -91,9 +91,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     color: const Color(0xFFF9F7FB),
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: Center(
-                    child: ImageBuilder(imagePath, width: 160),
-                  ),
+                  child: Center(child: ImageBuilder(imagePath, width: 160)),
                 ),
                 Positioned(
                   top: 24,
@@ -112,13 +110,17 @@ class ProductDetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                  
+
                 children: [
                   Row(
                     children: [
                       Text(
-                        name,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        name.replaceAll('\n', ' '),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: black,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
@@ -128,8 +130,10 @@ class ProductDetailsScreen extends StatelessWidget {
                       Text(
                         price,
                         style: const TextStyle(
-                          color:black,
-                          fontSize: 28, fontWeight: FontWeight.bold),
+                          color: black,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -148,19 +152,19 @@ class ProductDetailsScreen extends StatelessWidget {
                 children: const [
                   Text(
                     'About this item',
-                    style: TextStyle(fontSize: 16, color:grey),
+                    style: TextStyle(fontSize: 16, color: grey),
                   ),
                   SizedBox(height: 8),
                   Text(
                     '• This pre-owned product is not Apple certified, but has been professionally inspected, tested and cleaned by Amazon-qualified suppliers.\n'
                     '• There will be no visible cosmetic imperfections when held at an arm’s length. There will be no visible cosmetic imperfections when held at an arm’s length.',
-                    style: TextStyle(fontSize: 14, color:grey),
+                    style: TextStyle(fontSize: 14, color: grey),
                   ),
                 ],
               ),
             ),
 
-            const Spacer(),
+            const SizedBox(height: 32),
 
             // Add to cart button
             Container(
@@ -168,7 +172,7 @@ class ProductDetailsScreen extends StatelessWidget {
               margin: const EdgeInsets.all(16),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlueAccent,
+                  backgroundColor: blue,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -177,7 +181,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 onPressed: () async {
                   final cart = context.read<CartProvider>();
                   await cart.addItem(
-                    name, // Using name as ID for simplicity, you might want to use a unique ID
+                    name, // Using name as ID 
                     name,
                     double.parse(price.replaceAll(RegExp(r'[^0-9.]'), '')),
                     imagePath,
@@ -186,7 +190,12 @@ class ProductDetailsScreen extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Container(
-                          padding: const EdgeInsets.only(left: 8, top: 12, bottom: 12, right: 16),
+                          padding: const EdgeInsets.only(
+                            left: 8,
+                            top: 12,
+                            bottom: 12,
+                            right: 16,
+                          ),
                           decoration: const BoxDecoration(
                             color: white,
                             borderRadius: BorderRadius.only(
@@ -205,17 +214,22 @@ class ProductDetailsScreen extends StatelessWidget {
                             children: [
                               Container(
                                 width: 4,
-                                height: 35, // Set explicit height to match icon size
+                                height:
+                                    35, // Set explicit height to match icon size
                                 margin: const EdgeInsets.only(right: 40),
                                 decoration: const BoxDecoration(
-                                  color: Colors.green,
+                                  color: green,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(2),
                                     bottomLeft: Radius.circular(2),
                                   ),
                                 ),
                               ),
-                              const Icon(Icons.check_circle, color: Colors.green, size: 24),
+                              const Icon(
+                                Icons.check_circle,
+                                color: green,
+                                size: 24,
+                              ),
                               const SizedBox(width: 12),
                               const Text(
                                 'Item has been added to cart',
@@ -230,7 +244,11 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                         backgroundColor: Colors.transparent,
                         behavior: SnackBarBehavior.floating,
-                        margin: const EdgeInsets.only(bottom: 16, left: 8, right: 16),
+                        margin: const EdgeInsets.only(
+                          bottom: 16,
+                          left: 8,
+                          right: 16,
+                        ),
                         elevation: 0,
                         duration: const Duration(seconds: 2),
                       ),
